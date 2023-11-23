@@ -13,12 +13,14 @@ public class CalendrierAnnuel {
 	}
 	
 	public boolean estLibre(int jour, int mois) {
-		return cal[mois].estLibre(jour);
+		return cal[mois-1].estLibre(jour);
 	}
 	
 	public boolean reserver(int jour, int mois) {
-		
-		
+		if (estLibre(jour,mois)) {
+			cal[mois-1].reserver(jour);
+			return true;
+		}
 		return false;
 	}
 	
@@ -37,10 +39,13 @@ public class CalendrierAnnuel {
 		}
 		
 		private boolean estLibre(int jour) {
-			return jours[jour-1];
+			return !jours[jour-1];
 		}
 		
 		private void reserver(int jour) {
+			if (jours[jour-1]) {
+				throw new IllegalStateException();
+			}
 			jours[jour-1]=true;
 		}
 	}
